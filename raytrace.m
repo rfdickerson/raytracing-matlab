@@ -1,9 +1,9 @@
-function [colors, distance, normals] = raytrace(view_direction)
+function [colors, distance, normals] = raytrace(view_direction, spheres)
 
 numpixels = size(view_direction,1);
 view_origin = [0, 0, -1];
-s_center = [0, 0, 1];
-s_radius = 0.7;
+sphere_center = [0, 0, 1];
+sphere_radius = 0.7;
 light_origin = [-1, -2, -2];
 specularity = 120;
 ks = 0.9;
@@ -12,27 +12,10 @@ kd = 0.7;
 diffuse_color = [0, 0.3, 0.8];
 spec_color = [0.7, 0.7, 0.95];
 
-
-a = ones(numpixels,1); % sum(view_direction.^2, 2);
-
-b = 2 * view_direction * (view_origin - s_center)';
-
-c = sum((view_origin - s_center).^2,2) - s_radius^2;
-
-discriminant = b.^2 - 4 .* a .* c;
-
-hits = discriminant > 0;
-
-distancea = (-b - sqrt(complex(discriminant)))./(2*a);
-distanceb = (-b + sqrt(complex(discriminant)))./(2*a);
-distance = real(min(distancea, distanceb));
-distance(hits==0) = NaN;
-
-
-intersection = view_origin + view_direction .* distance;
-
-normals = intersection - s_center;
-normals = normals ./ sqrt(sum(normals.^2,2));
+[intersection, distance, normals] = sphere(view_origin, ...
+                                           view_direction, ...
+                                           sphere_center, ...
+                                           sphere_radius);
 
 light_direction = light_origin - intersection;
 light_direction = light_direction ./ sqrt(sum(light_direction.^2,2));
