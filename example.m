@@ -8,12 +8,30 @@ y = linspace(-1, 1, height);
 
 [X,Y] = meshgrid(x,y);
 
-% store sphere information as origin, color, radius
-spheres = [
-        0.0,    0,      1,   0.78, 0.9531, 0.3906, 0.5;
-        1.0,    0,      1.5,  0.332, 0.3828, 0.4375, 0.5;
-       -1.0,    0,      1.5, 0.1094, 0.8008, 0.7656, 0.5;  
+origins = [
+    0.0,    0,      1;
+    1.0,    0,      1.5;
+    -1.0,    0,      1.5
+    ];
+
+colors = [
+    233, 30, 99;
+    3, 169, 244;
+    76, 175, 80
 ];
+
+radii = [
+    0.5, 0.5, 0.5
+    ];
+
+% store sphere information as origin, color, radius
+% spheres = [
+%         0.0,    0,      1,   0.78, 0.9531, 0.3906, 0.5;
+%         1.0,    0,      1.5,  0.332, 0.3828, 0.4375, 0.5;
+%        -1.0,    0,      1.5, 0.1094, 0.8008, 0.7656, 0.5;  
+% ];
+
+spheres = [origins rgb2vec(colors) radii'];
 
 spheres = single(spheres);
 
