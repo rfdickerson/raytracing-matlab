@@ -1,7 +1,6 @@
-function [colors, distance, normals] = raytrace(view_origin, view_direction, spheres)
+function [colors, distance, normals] = raytrace(view_origin, view_direction, spheres, depth)
 
 numpixels = size(view_direction,1);
-view_origin = [0, 0, -1];
 
 light_origin = [-1, -2, -2];
 specularity = 120;
@@ -37,13 +36,18 @@ for i = 1:num_spheres
 
     r = 2 * dot(light_direction, normals, 2) .* normals - light_direction;
     r = normalize(r);
-
+    
+    reflect_color = [0, 0, 0];
+    if depth < 1
+        [reflect_color, reflect_distance, reflect_normals]  = raytrace(intersection, -r, spheres, depth+1);
+    end
+    
     specular_intensity = max(0, dot(r, view_direction_2, 2)) .^ specularity;
     diffuse_intensity = max(0, dot(normals, light_direction, 2));
 
     color = ks * specular_intensity * spec_color ...
           + kd * diffuse_intensity * sphere_color ...
-          + ka * ambient_color;
+          + 0.05 * reflect_color;
      
     color_array(i,:,:) = color;
     normals_array(i,:,:) = normals;
