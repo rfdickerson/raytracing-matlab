@@ -7,6 +7,7 @@ specularity = 120;
 ks = 1.0;
 kd = 0.9;
 ka = 0.0;
+reflectivity = 0.1;
 
 % diffuse_color = [0, 0.3, 0.8];
 spec_color = [0.7, 0.7, 0.95];
@@ -39,7 +40,7 @@ for i = 1:num_spheres
     
     reflect_color = [0, 0, 0];
     if depth < 1
-        [reflect_color, reflect_distance, reflect_normals]  = raytrace(intersection, -r, spheres, depth+1);
+        [reflect_color, ~, ~]  = raytrace(intersection, -r, spheres, depth+1);
     end
     
     specular_intensity = max(0, dot(r, view_direction_2, 2)) .^ specularity;
@@ -47,7 +48,7 @@ for i = 1:num_spheres
 
     color = ks * specular_intensity * spec_color ...
           + kd * diffuse_intensity * sphere_color ...
-          + 0.05 * reflect_color;
+          + reflectivity * reflect_color;
      
     color_array(i,:,:) = color;
     normals_array(i,:,:) = normals;

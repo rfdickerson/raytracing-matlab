@@ -9,7 +9,7 @@ numpixels = size(view_direction, 1);
 
 sphere_center = repmat(sphere_center, numpixels, 1);
 
-a = ones(numpixels,1, 'single'); % sum(view_direction.^2, 2);
+a = ones(numpixels, 1, 'single'); 
 
 b = 2 * dot(view_direction, (view_origin - sphere_center),2);
 
@@ -22,7 +22,6 @@ hits = discriminant > 0;
 distance_a = (-b - sqrt(complex(discriminant)))./(2.*a);
 distance_b = (-b + sqrt(complex(discriminant)))./(2.*a);
 distance = min([distance_a distance_b],[],2);
-%distance = distanceb;
 distance(hits==0) = NaN;
 
 intersection = view_origin + view_direction .* distance;

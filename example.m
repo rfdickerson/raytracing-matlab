@@ -1,6 +1,8 @@
 width = 512;
 height = 512;
 
+view_origin = [0, -1, -2];
+
 numpixels = width * height;
 
 x = linspace(-1, 1, width); 
@@ -11,17 +13,19 @@ y = linspace(-1, 1, height);
 origins = [
     0.0,    0,      1;
     1.0,    0,      1.5;
-    -1.0,    0,      1.5
+    -1.0,    0,      1.5;
+    -1.0,    0,      3.0;
     ];
 
 colors = [
     233, 30, 99;
     3, 169, 244;
-    76, 175, 80
+    76, 175, 80;
+    3, 169, 244;
 ];
 
 radii = [
-    0.5, 0.5, 0.5
+    0.5, 0.5, 0.5, 0.5
     ];
 
 % store sphere information as origin, color, radius
@@ -35,7 +39,7 @@ spheres = [origins rgb2vec(colors) radii'];
 
 spheres = single(spheres);
 
-view_origin = repmat([0, 0, -1], numpixels, 1);
+view_origin = repmat(view_origin, numpixels, 1);
 view_direction = [reshape(X, numpixels, 1) reshape(Y, numpixels, 1) ones(numpixels,1)]; 
 view_direction = normalize(view_direction);
 view_direction = single(view_direction);
