@@ -5,11 +5,13 @@ view_origin = [0, 0, -1];
 
 light_origin = [-1, -2, -2];
 specularity = 120;
-ks = 0.9;
-kd = 0.7;
+ks = 1.0;
+kd = 0.9;
+ka = 0.0;
 
 % diffuse_color = [0, 0.3, 0.8];
 spec_color = [0.7, 0.7, 0.95];
+ambient_color = [1.0, 1.0, 1.0];
 
 num_spheres = size(spheres, 1);
 
@@ -40,7 +42,8 @@ for i = 1:num_spheres
     diffuse_intensity = max(0, dot(normals, light_direction, 2));
 
     color = ks * specular_intensity * spec_color ...
-          + kd * diffuse_intensity * sphere_color;
+          + kd * diffuse_intensity * sphere_color ...
+          + ka * ambient_color;
      
     color_array(i,:,:) = color;
     normals_array(i,:,:) = normals;

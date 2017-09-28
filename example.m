@@ -1,5 +1,5 @@
-width = 1024;
-height = 1024;
+width = 512;
+height = 512;
 
 numpixels = width * height;
 
@@ -10,10 +10,9 @@ y = linspace(-1, 1, height);
 
 % store sphere information as origin, color, radius
 spheres = [
-        0.0,    0,      1, 1, 0, 0, 0.5;
-        1.0,    0,      1.5, 0, 1, 0, 0.5;
-       -1.0,    0,      1, 0, 0, 1, 0.5;  
-    
+        0.0,    0,      1,   0.332, 0.3828, 0.4375, 0.5;
+        1.0,    0,      1.5, 0.78, 0.9531, 0.3906, 0.5;
+       -1.0,    0,      1.5, 0.1094, 0.8008, 0.7656, 0.5;  
 ];
 
 spheres = single(spheres);
