@@ -1,7 +1,10 @@
 width = 512;
 height = 512;
 
-view_origin = [0, -1, -2];
+%width = 2048;
+%height = 2048;
+
+view_origin = single([0, -1, -2]);
 
 numpixels = width * height;
 
@@ -28,13 +31,6 @@ radii = [
     0.5, 0.5, 0.5, 0.5
     ];
 
-% store sphere information as origin, color, radius
-% spheres = [
-%         0.0,    0,      1,   0.78, 0.9531, 0.3906, 0.5;
-%         1.0,    0,      1.5,  0.332, 0.3828, 0.4375, 0.5;
-%        -1.0,    0,      1.5, 0.1094, 0.8008, 0.7656, 0.5;  
-% ];
-
 spheres = [origins rgb2vec(colors) radii'];
 
 spheres = single(spheres);
@@ -53,4 +49,4 @@ image2 = reshape(colors, width, height, 3);
 image(image2);
 pbaspect([1 1 1]);
 
-imwrite(image2, 'sphere.png');
+% imwrite(image2, 'sphere.png');

@@ -7,7 +7,8 @@ specularity = 120;
 ks = 1.0;
 kd = 0.9;
 ka = 0.0;
-reflectivity = 0.1;
+reflectivity = 0.05;
+eps = 0.001;
 
 % diffuse_color = [0, 0.3, 0.8];
 spec_color = [0.7, 0.7, 0.95];
@@ -32,15 +33,26 @@ for i = 1:num_spheres
                                         
     light_direction = light_origin - intersection;
     light_direction = normalize(light_direction);
+    
+    i2 = intersection + eps*normals;
+    
+    % compute the shadow rays
+   [shadowIntersection, ~, ~] = sphere(intersection, ...
+                                       light_direction, ...
+                                       sphere_center, ...
+                                       sphere_radius);
+                                   
 
     view_direction_2 = normalize(view_origin - intersection);
 
     r = 2 * dot(light_direction, normals, 2) .* normals - light_direction;
     r = normalize(r);
     
+    
+    
     reflect_color = [0, 0, 0];
     if depth < 1
-        [reflect_color, ~, ~]  = raytrace(intersection, -r, spheres, depth+1);
+        [reflect_color, ~, ~]  = raytrace(i2, -r, spheres, depth+1);
     end
     
     specular_intensity = max(0, dot(r, view_direction_2, 2)) .^ specularity;
