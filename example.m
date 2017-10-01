@@ -14,22 +14,26 @@ y = linspace(-1, 1, height);
 [X,Y] = meshgrid(x,y);
 
 origins = [
+    0.5,    0,      2.5;
     0.0,    0,      1;
     1.0,    0,      1.5;
     -1.0,    0,      1.5;
     ];
 
 colors = [
+    76, 175, 80;
     233, 30, 99;
     3, 169, 244;
     76, 175, 80;
 ];
 
 radii = [
-    0.5, 0.5, 0.5
+    0.5, 0.5, 0.5, 0.5
     ];
 
 spheres = [origins rgb2vec(colors) radii'];
+
+% spheres = random_spheres(10);
 
 spheres = single(spheres);
 
@@ -38,13 +42,17 @@ view_direction = [reshape(X, numpixels, 1) reshape(Y, numpixels, 1) ones(numpixe
 view_direction = normalize(view_direction);
 view_direction = single(view_direction);
 
+% view_direction = gpuArray(view_direction);
+
 tic
-[colors, distance, normals] = raytrace(view_origin, view_direction, spheres, 0);
+[colors, ~, ~] = raytrace(view_origin, view_direction, spheres, 0);
 toc
 
 image2 = reshape(colors, width, height, 3);
 
+%gather(image2);
+
 image(image2);
 pbaspect([1 1 1]);
 
-% imwrite(image2, 'sphere.png');
+%imwrite(image2, 'sphere.png');
