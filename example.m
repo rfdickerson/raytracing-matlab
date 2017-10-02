@@ -18,6 +18,7 @@ origins = [
     0.0,    0,      1;
     1.0,    0,      1.5;
     -1.0,    0,      1.5;
+    -0.5,    0,      2.5;
     ];
 
 colors = [
@@ -25,10 +26,11 @@ colors = [
     233, 30, 99;
     3, 169, 244;
     76, 175, 80;
+    3, 169, 244;
 ];
 
 radii = [
-    0.5, 0.5, 0.5, 0.5
+    0.5, 0.5, 0.5, 0.5, 0.5
     ];
 
 spheres = [origins rgb2vec(colors) radii'];
@@ -41,6 +43,8 @@ view_origin = repmat(view_origin, numpixels, 1);
 view_direction = [reshape(X, numpixels, 1) reshape(Y, numpixels, 1) ones(numpixels,1)]; 
 view_direction = normalize(view_direction);
 view_direction = single(view_direction);
+
+%view_direction = supersample(view_direction, 0.001);
 
 % view_direction = gpuArray(view_direction);
 

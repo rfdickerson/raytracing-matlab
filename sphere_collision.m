@@ -23,9 +23,10 @@ hits = discriminant > 0;
 distance_a = (-b - sqrt(complex(discriminant)))./(2.*a);
 distance_b = (-b + sqrt(complex(discriminant)))./(2.*a);
 distance = min([distance_a distance_b],[],2);
-distance(hits==0) = NaN;
 
 hits(distance<0) = false;
+
+distance(hits==0) = NaN;
 
 intersection = viewOrigin + viewDirection .* distance;
 

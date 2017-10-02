@@ -5,7 +5,7 @@ function [colors, distance, normals] = raytrace(view_origin, ...
 
 numpixels = size(view_direction,1);
 
-light_origin = [10, -10, 0];
+light_origin = [5, -10, -5];
 specularity = 120;
 ks = 1.0;
 kd = 0.9;
@@ -65,7 +65,7 @@ for i = 1:num_spheres
      
     reflect_color = [0, 0, 0];
     if depth < 1
-        %[reflect_color, ~, ~]  = raytrace(intersection, -r, spheres, depth+1);
+        [reflect_color, ~, ~]  = raytrace(intersection, r, spheres, depth+1);
     end
     
     specular_intensity = max(0, dot(r, view_direction_2, 2)) .^ specularity;
