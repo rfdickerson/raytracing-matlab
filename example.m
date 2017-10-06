@@ -1,8 +1,10 @@
-width = 512;
-height = 512;
+width = 1024;
+height = 1024;
 
 %width = 2048;
 %height = 2048;
+
+rng('shuffle')
 
 view_origin = single([0, -1, -2]);
 
@@ -36,27 +38,33 @@ radii = [
 spheres = [origins rgb2vec(colors) radii'];
 
 % spheres = random_spheres(10);
-
+ 
 spheres = single(spheres);
+
+nSamples = 9;
 
 view_origin = repmat(view_origin, numpixels, 1);
 view_direction = [reshape(X, numpixels, 1) reshape(Y, numpixels, 1) ones(numpixels,1)]; 
-view_direction = normalize(view_direction);
+
 view_direction = single(view_direction);
 
-%view_direction = supersample(view_direction, 0.001);
+v = zeros(numpixels, 3, nSamples);
 
-% view_direction = gpuArray(view_direction);
+samples = supersample(3);
 
 tic
-[colors, ~, ~] = raytrace(view_origin, view_direction, spheres, 0);
+for i = 1:nSamples
+    perturbedDirection = view_direction + 0.01 * samples(i);
+    [colors, ~, ~] = raytrace (view_origin, perturbedDirection, spheres, 0);
+    v(:, :, i) = colors;
+end
 toc
+   
+finalImage = mean(v, 3);
 
-image2 = reshape(colors, width, height, 3);
+finalImage = reshape(finalImage, width, height, 3);
 
-%gather(image2);
-
-image(image2);
+image(finalImage);
 pbaspect([1 1 1]);
 
 %imwrite(image2, 'sphere.png');
