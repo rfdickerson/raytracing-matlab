@@ -1,8 +1,6 @@
-width = 1024;
-height = 1024;
+width = 256;
+height = 256;
 
-%width = 2048;
-%height = 2048;
 
 rng('shuffle')
 
@@ -21,18 +19,22 @@ origins = [
     1.0,    0,      1.5;
     -1.0,    0,      1.5;
     -0.5,    0,      2.5;
+    0.5,    0,      0.5;
+    0, 2000, 0
     ];
 
 colors = [
-    76, 175, 80;
-    233, 30, 99;
-    3, 169, 244;
-    76, 175, 80;
-    3, 169, 244;
+    140, 146, 172;
+    140, 146, 172;
+    140, 146, 172;
+    140, 146, 172;
+    140, 146, 172;
+    140, 146, 172;
+    140, 146, 172;
 ];
 
 radii = [
-    0.5, 0.5, 0.5, 0.5, 0.5
+    0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1999.5
     ];
 
 spheres = [origins rgb2vec(colors) radii'];
@@ -41,25 +43,26 @@ spheres = [origins rgb2vec(colors) radii'];
  
 spheres = single(spheres);
 
-nSamples = 9;
+nSamples = 5;
 
 view_origin = repmat(view_origin, numpixels, 1);
 view_direction = [reshape(X, numpixels, 1) reshape(Y, numpixels, 1) ones(numpixels,1)]; 
 
 view_direction = single(view_direction);
 
-v = zeros(numpixels, 3, nSamples);
+v = zeros(numpixels, 3, nSamples); 
 
-samples = supersample(3);
+samples = supersample(4);
 
 tic
 for i = 1:nSamples
-    perturbedDirection = view_direction + 0.01 * samples(i);
+    perturbedDirection = view_direction + 2/width * (-0.5 + samples(i));
+    perturbedDirection = normalize(perturbedDirection);
     [colors, ~, ~] = raytrace (view_origin, perturbedDirection, spheres, 0);
     v(:, :, i) = colors;
 end
 toc
-   
+
 finalImage = mean(v, 3);
 
 finalImage = reshape(finalImage, width, height, 3);
@@ -67,4 +70,4 @@ finalImage = reshape(finalImage, width, height, 3);
 image(finalImage);
 pbaspect([1 1 1]);
 
-%imwrite(image2, 'sphere.png');
+imwrite(finalImage, 'sphere.png');

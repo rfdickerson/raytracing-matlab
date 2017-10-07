@@ -11,7 +11,7 @@ nPixels = size*size;
 x = linspace(scale, 1-scale, size); 
 y = linspace(scale, 1-scale, size);
 
-rx = scale * (-1+2* (size));
+rx = scale * (-1+2*rand(size));
 ry = scale * (-1+2*rand(size));
 
 [X,Y] = meshgrid(x,y);

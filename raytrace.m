@@ -5,12 +5,12 @@ function [colors, distance, normals] = raytrace(view_origin, ...
 
 numpixels = size(view_direction,1);
 
-light_origin = [5, -10, -5];
-specularity = 120;
-ks = 1.0;
+light_origin = [10, -10, -5];
+specularity = 60;
+ks = 0.6;
 kd = 0.9;
-ka = 0.0;
-reflectivity = 0.2;
+ka = 0.00;
+reflectivity = 0.1;
 eps = 0.01;
 
 % diffuse_color = [0, 0.3, 0.8];
@@ -73,7 +73,8 @@ for i = 1:num_spheres
 
     color = ks * specular_intensity * spec_color ...
           + kd * diffuse_intensity * sphere_color ...
-          + reflectivity * reflect_color;
+          + reflectivity * reflect_color ...
+          + ka * ambient_color;
    
     color_array(:,:,i) = color;
     normals_array(:,:,i) = normals;
