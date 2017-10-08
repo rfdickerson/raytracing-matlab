@@ -7,11 +7,11 @@ numpixels = size(view_direction,1);
 
 light_origin = [10, -10, -5];
 specularity = 60;
-ks = 0.6;
+ks = 0.0;
 kd = 0.9;
 ka = 0.00;
 reflectivity = 0.1;
-eps = 0.01;
+eps = 0.0001;
 
 % diffuse_color = [0, 0.3, 0.8];
 spec_color = [0.7, 0.7, 0.95];
@@ -65,7 +65,7 @@ for i = 1:num_spheres
      
     reflect_color = [0, 0, 0];
     if depth < 1
-        [reflect_color, ~, ~]  = raytrace(intersection, r, spheres, depth+1);
+        %[reflect_color, ~, ~]  = raytrace(intersection, r, spheres, depth+1);
     end
     
     specular_intensity = max(0, dot(r, view_direction_2, 2)) .^ specularity;

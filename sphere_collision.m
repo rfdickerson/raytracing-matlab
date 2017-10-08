@@ -18,18 +18,27 @@ c = sum((viewOrigin - sphereCenter).^2,2) - sphereRadius^2;
 
 discriminant = b.^2 - 4 .* a .* c;
 
-hits = discriminant > 0;
+% if the ray hits the sphere
+hits = discriminant >= 0;
 
-distance_a = (-b - sqrt(complex(discriminant)))./(2.*a);
-distance_b = (-b + sqrt(complex(discriminant)))./(2.*a);
-distance = min([distance_a distance_b],[],2);
+distance1 = NaN(nPixels, 1);
+distance2 = NaN(nPixels, 1);
+
+distance1(hits==true) = (-b(hits==true) - sqrt(discriminant(hits==true)))./(2*a(hits==true));
+distance2(hits==true) = (-b(hits==true) + sqrt(discriminant(hits==true)))./(2*a(hits==true));
+distance = min([distance1 distance2],[],2);
 
 hits(distance<0) = false;
 
-distance(hits==0) = NaN;
+distance(hits==false) = NaN;
 
-intersection = viewOrigin + viewDirection .* distance;
+intersection = zeros(nPixels, 3);
+intersection(hits==true,:) = viewOrigin(hits==true,:) + viewDirection(hits==true,:) .* distance(hits==true);
+%intersection = viewOrigin + viewDirection .* distance;
 
-normals = normalize(intersection - sphereCenter);
+normals = zeros(nPixels, 3);
+%normals = normalize(intersection - sphereCenter);
+normals(hits==true,:) = normalize(intersection(hits==true,:) - sphereCenter(hits==true,:));
+
 end
 

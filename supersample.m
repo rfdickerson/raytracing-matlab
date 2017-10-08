@@ -20,7 +20,7 @@ ry = scale * (-1+2*rand(size));
 RX = X + rx;
 RY = Y + ry;
 
-% scatter(reshape(RX,nPixels,1), reshape(RY,nPixels,1),'filled');
+%scatter(reshape(RX,nPixels,1), reshape(RY,nPixels,1),'filled');
 
 superVectors = [reshape(RX, nPixels, 1) reshape(RY, nPixels, 1) zeros(nPixels,1)];
   
